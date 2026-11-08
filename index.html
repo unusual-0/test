@@ -456,7 +456,7 @@ function ytLoad(){
               }catch{}
               resolve(yp);
             },
-            onStateChange:onYS,
+            onStateChange:onYS,onApiChange:ccOff,
             onError:e=>{
               const msg=explainYTError(e.data);
               const status=$m('#cxmNowLabel');
@@ -513,7 +513,8 @@ function ytLoad(){
 
   return ypP;
 }
-function onYS(e){if(e.data===0)next(true);else if(e.data===1){playing=true;const v=yp?.getVideoData?.();if(v?.title&&L[cur]?.type==='yt'){L[cur].title=v.title;saveL();autoLyrics(L[cur])}ui()}else if(e.data===2){playing=false;ui()}else if(e.data===-1){playing=false;ui()}}
+function ccOff(){try{yp.unloadModule('captions');yp.unloadModule('cc')}catch{}}
+function onYS(e){if(e.data===1||e.data===3||e.data===5)ccOff();if(e.data===0)next(true);else if(e.data===1){playing=true;const v=yp?.getVideoData?.();if(v?.title&&L[cur]?.type==='yt'){L[cur].title=v.title;saveL();autoLyrics(L[cur])}ui()}else if(e.data===2){playing=false;ui()}else if(e.data===-1){playing=false;ui()}}
 const effVol=()=>M.vol*(C.S.mute?0:C.S.vol);
 function setVol(){au.volume=Math.min(1,effVol());try{yp?.setVolume?.(effVol()*100)}catch{}}
 function halt(){au.pause();try{yp?.stopVideo?.()}catch{}}
