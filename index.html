@@ -267,19 +267,47 @@ body .cf-card.center{box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 22px var(--cx-tin
 body .cxm-wave i{animation-name:cxWaveT!important}
 @keyframes cxWaveT{from{transform:scaleY(.35)}to{transform:scaleY(1.25)}}
 #cmxdummy{}
-#cxmGlow{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:0;--c:#7a5cff}
+#cxmBg .cxm-video-layer.show iframe{position:absolute!important;left:50%!important;top:50%!important;width:max(100vw,177.78vh)!important;height:max(100vh,56.25vw)!important;transform:translate(-50%,-50%) scale(var(--vz,1.2))!important}
+/* ===== FX: glow strip + edge blur + settings ===== */
+#cxmGlow{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:0;transition:opacity .5s}
+body.cx-music-open.cx-playing:not(.cf-open) #cxmGlow{opacity:1}
 body:not(.cx-music-open) #cxmGlow{display:none}
-#cxmGlow i{position:absolute}
-#cxmGlow .t{left:0;right:0;top:0;height:90px;background:linear-gradient(180deg,var(--c),transparent)}
-#cxmGlow .b{left:0;right:0;bottom:0;height:90px;background:linear-gradient(0deg,var(--c),transparent)}
-#cxmGlow .l{top:0;bottom:0;left:0;width:90px;background:linear-gradient(90deg,var(--c),transparent)}
-#cxmGlow .r{top:0;bottom:0;right:0;width:90px;background:linear-gradient(270deg,var(--c),transparent)}
-#cxmBg .cxm-video-layer.show iframe{position:absolute!important;left:50%!important;top:50%!important;width:max(100vw,177.78vh)!important;height:max(100vh,56.25vw)!important;transform:translate(-50%,-50%) scale(1.2)!important}
+#cxmGlowIn{position:absolute;inset:0}
+#cxmGlow.m-breathe #cxmGlowIn{animation:gbreathe var(--bd,6s) ease-in-out infinite}
+@keyframes gbreathe{0%,100%{opacity:.2}50%{opacity:1}}
+#cxmGlow .gl{position:absolute;overflow:hidden}
+#cxmGlow .gl i{position:absolute;will-change:transform}
+#cxmGlow .gl.t,#cxmGlow .gl.b{left:0;right:0;height:46px}
+#cxmGlow .gl.t{top:0}#cxmGlow .gl.b{bottom:0}
+#cxmGlow .gl.l,#cxmGlow .gl.r{top:0;bottom:0;width:46px}
+#cxmGlow .gl.l{left:0}#cxmGlow .gl.r{right:0}
+#cxmGlow .gl.t i,#cxmGlow .gl.b i{left:0;width:200%;background:var(--gradh)}
+#cxmGlow .gl.l i,#cxmGlow .gl.r i{top:0;height:200%;background:var(--gradv)}
+#cxmGlow .gl.t i{top:0}#cxmGlow .gl.b i{bottom:0}#cxmGlow .gl.l i{left:0}#cxmGlow .gl.r i{right:0}
+#cxmGlow .gl.t .core,#cxmGlow .gl.b .core{height:var(--gs,3px)}
+#cxmGlow .gl.l .core,#cxmGlow .gl.r .core{width:var(--gs,3px)}
+#cxmGlow .gl .halo{filter:blur(9px);opacity:var(--gop,.6)}
+#cxmGlow .gl.t .halo,#cxmGlow .gl.b .halo{height:calc(var(--gs,3px)*3 + 8px)}
+#cxmGlow .gl.l .halo,#cxmGlow .gl.r .halo{width:calc(var(--gs,3px)*3 + 8px)}
+#cxmGlow .gl.t i,#cxmGlow .gl.b i{animation:gfx var(--spd,10s) linear infinite}
+#cxmGlow .gl.l i,#cxmGlow .gl.r i{animation:gfy var(--spd,10s) linear infinite}
+#cxmGlow .gl.b i,#cxmGlow .gl.r i{animation-direction:reverse}
+@keyframes gfx{to{transform:translateX(-50%)}}@keyframes gfy{to{transform:translateY(-50%)}}
+#cxmGlow.m-static .gl i,#cxmGlow.m-breathe .gl i,body:not(.cx-playing) #cxmGlow .gl i{animation-play-state:paused}
 .cxm-edgeblur{display:none;position:absolute;inset:0;pointer-events:none}
-.cxm-video-layer.show~.cxm-edgeblur{display:block}
-.cxm-edgeblur i{position:absolute;left:0;right:0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.cxm-edgeblur i:nth-child(1){top:0;height:12%;-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
-.cxm-edgeblur i:nth-child(2){bottom:0;height:10%;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000)}
+.cxm-video-layer.show~.cxm-edgeblur:not(.off){display:block}
+.cxm-edgeblur i{position:absolute;backdrop-filter:blur(var(--bb,12px));-webkit-backdrop-filter:blur(var(--bb,12px))}
+.cxm-edgeblur i:nth-child(1){left:0;right:0;top:0;height:var(--bs,9vmin);-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
+.cxm-edgeblur i:nth-child(2){left:0;right:0;bottom:0;height:var(--bs,9vmin);-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000)}
+.cxm-edgeblur i:nth-child(3){top:0;bottom:0;left:0;width:var(--bs,9vmin);-webkit-mask-image:linear-gradient(90deg,#000,transparent);mask-image:linear-gradient(90deg,#000,transparent)}
+.cxm-edgeblur i:nth-child(4){top:0;bottom:0;right:0;width:var(--bs,9vmin);-webkit-mask-image:linear-gradient(270deg,#000,transparent);mask-image:linear-gradient(270deg,#000,transparent)}
+.fx-sec h4{margin:16px 0 8px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#aab6d8}
+.fx-row{display:grid;grid-template-columns:120px 1fr 44px;align-items:center;gap:10px;font-size:.8rem;margin:7px 0;color:#e8ecff}
+.fx-row.two{grid-template-columns:120px 1fr}
+.fx-row input[type=range]{width:100%;accent-color:#8ea2ff}
+.fx-row select,.fx-row input[type=color]{background:#0a1226;color:#fff;border:1px solid #ffffff2a;border-radius:10px;padding:6px 8px;font:inherit;width:100%}
+.fx-row input[type=color]{height:34px;padding:2px}
+.fx-row output{text-align:right;color:#b9c4e6;font-size:.72rem}
 </style>
 </head>
   <body>
@@ -598,7 +626,7 @@ const cxShell=$m('#cxmShell'),cxStage=$m('#cxmStage');
 cxShell.insertAdjacentHTML('afterbegin','<div class="cxm-edge"></div>');
 $m('.cxm-top-left').insertAdjacentHTML('beforeend',`<button class="cxm-icon-btn" id="cxmMenuBtn" title="Menu">${svg('list',17)}</button>`);
 $m('.cxm-stage-side-controls').insertAdjacentHTML('beforeend','<button id="cxmGlowBtn" title="RGB glow (G)">✦</button>');
-document.body.insertAdjacentHTML('beforeend','<div id="cxmGlow"><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i></div>');
+document.body.insertAdjacentHTML('beforeend','<div id="cxmGlow"><div id="cxmGlowIn"><div class="gl t"><i class="halo"></i><i class="core"></i></div><div class="gl b"><i class="halo"></i><i class="core"></i></div><div class="gl l"><i class="halo"></i><i class="core"></i></div><div class="gl r"><i class="halo"></i><i class="core"></i></div></div></div>');
 /* panel overlay wrapper */
 {const w=document.createElement('div');w.className='cxm-pwrap';w.id='cxmPanelWrap';w.innerHTML=`<button class="cxm-icon-btn cxm-pclose" id="cxmPanelClose" title="Close">${svg('close',16)}</button>`;const c=$m('#cxmContent');cxShell.appendChild(w);w.appendChild(c)}
 function cxPanel(page){const w=$m('#cxmPanelWrap');if(w)w.classList.toggle('open',page!=='home')}
@@ -610,8 +638,8 @@ const cfSource=()=>(cxRecent.length?cxRecent:L).filter(t=>t.type!=='local'||L.so
 function cfLayout(){const gap=Math.min(innerWidth*.15,190);[...cfStage.children].forEach((c,i)=>{const o=i-cfSel,a=Math.abs(o),s=Math.sign(o);c.style.transform=`translate(-50%,-50%) translateX(${o*gap+s*(a?46:0)}px) translateZ(${-a*90}px) rotateY(${-s*Math.min(a,2.2)*34}deg) scale(${a?.88:1})`;c.style.zIndex=50-a;c.style.opacity=a>4?0:Math.max(0,1-a*.13);c.style.pointerEvents=a>3?'none':'auto';c.style.visibility=a>3?'hidden':'visible';c.classList.toggle('center',!a)})}
 function cfShow(items,hint){cfItems=items;cfSel=Math.max(0,Math.floor((items.length-1)/2));cfStage.innerHTML=items.map((t,i)=>`<div class="cf-card" data-i="${i}"><img src="${safeText(t.thumb||artUrl(t))}" alt="" draggable="false" onerror="this.src='${placeholder}'"><b>${safeText(t.title)}</b><small>${safeText(t.artist||'YouTube')}</small></div>`).join('');cfHint.textContent=hint||'';requestAnimationFrame(()=>requestAnimationFrame(cfLayout))}
 function cfMove(d){if(!cfItems.length)return;cfSel=Math.max(0,Math.min(cfItems.length-1,cfSel+d));cfLayout()}
-function cfOpen(){if(cxShell.classList.contains('search-open'))return;cxShell.classList.add('search-open');renderPage('home');cfShow(cfSource(),cfSource().length?'Recently played':'Type to search YouTube')}
-function cfClose(){cxShell.classList.remove('search-open');cfInput.value='';cfInput.blur();cfReq++;clearTimeout(cfTimer)}
+function cfOpen(){if(cxShell.classList.contains('search-open'))return;cxShell.classList.add('search-open');document.body.classList.add('cf-open');renderPage('home');cfShow(cfSource(),cfSource().length?'Recently played':'Type to search YouTube')}
+function cfClose(){cxShell.classList.remove('search-open');document.body.classList.remove('cf-open');cfInput.value='';cfInput.blur();cfReq++;clearTimeout(cfTimer)}
 function cfPlay(t){if(!t)return;let i=t.type==='local'?L.findIndex(x=>x.id===t.id):L.findIndex(x=>x.type==='yt'&&x.vid===t.vid);if(i<0)i=addToQueue({...t});play(i);cfClose()}
 const cfCache=new Map();const cfMap=(items)=>items.slice(0,10).map(x=>({id:'yt-'+x.vid,type:'yt',vid:x.vid,title:x.title||'Untitled',artist:x.artist||'YouTube',thumb:'https://i.ytimg.com/vi/'+x.vid+'/mqdefault.jpg'}));
 async function cfRun(q){q=q.trim();if(!q){cfShow(cfSource(),'Recently played');return}const id=++cfReq;const ck=q.toLowerCase();if(cfCache.has(ck)){cfShow(cfCache.get(ck),'Results · ←/→ to browse, Enter to play');return}cfHint.textContent='Searching…';try{let items=null;const key=apiKey();if(key){try{const u=new URL('https://www.googleapis.com/youtube/v3/search');u.search=new URLSearchParams({part:'snippet',type:'video',videoCategoryId:'10',videoEmbeddable:'true',maxResults:'12',q,key}).toString();const r=await fetch(u),d=await r.json();if(!r.ok)throw 0;items=(d.items||[]).filter(x=>x.id?.videoId).map(x=>({vid:x.id.videoId,title:x.snippet?.title,artist:x.snippet?.channelTitle,thumb:x.snippet?.thumbnails?.medium?.url}))}catch{}}if(!items)items=await keylessSearch(q);if(id!==cfReq)return;const cards=cfMap(items);cfCache.set(ck,cards);cfShow(cards,'Results · ←/→ to browse, Enter to play')}catch{if(id===cfReq)cfShow([],'No results — mirrors may be busy. Paste a YouTube link and press Enter.')}}
@@ -648,18 +676,41 @@ document.addEventListener('keydown',e=>{if(!document.body.classList.contains('cx
 var cxTintUrl='';function cxTint(u){if(!u||u===cxTintUrl)return;cxTintUrl=u;const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=12;const x=c.getContext('2d');x.drawImage(im,0,0,12,12);const d=x.getImageData(0,0,12,12).data;let r=0,g=0,b=0,n=0;for(let i=0;i<d.length;i+=4){const mx=Math.max(d[i],d[i+1],d[i+2]),mn=Math.min(d[i],d[i+1],d[i+2]);if(mx>70&&mx-mn>28){r+=d[i];g+=d[i+1];b+=d[i+2];n++}}if(n){r/=n;g/=n;b/=n;const k=Math.min(255/Math.max(r,g,b),1.6);document.documentElement.style.setProperty('--cx-tint',`rgba(${Math.min(255,r*k)|0},${Math.min(255,g*k)|0},${Math.min(255,b*k)|0},.85)`)}}catch{}};im.onerror=()=>{};im.src=u}
 var cxMS=false;function cxMedia(){const ms=navigator.mediaSession;if(!ms)return;const t=L[cur];if(!cxMS){cxMS=true;[['play',()=>{if(!playing)toggle()}],['pause',()=>{if(playing)toggle()}],['nexttrack',()=>next(false)],['previoustrack',()=>prev()]].forEach(([a,f])=>{try{ms.setActionHandler(a,f)}catch{}})}if(t){try{ms.metadata=new MediaMetadata({title:t.title||'',artist:t.artist||'',artwork:[{src:artUrl(t)}]})}catch{}ms.playbackState=playing?'playing':'paused'}}
 /* RGB glow driven by audio */
-$m('#cxmGlowBtn').classList.toggle('active',M.glow!==false);
-$m('#cxmGlowBtn').addEventListener('click',()=>{M.glow=M.glow===false;saveM();$m('#cxmGlowBtn').classList.toggle('active',M.glow!==false)});
-let cxAC,cxAn,cxData;function cxAnalyser(){if(cxAn)return cxAn;try{cxAC=new(window.AudioContext||window.webkitAudioContext)();const s=cxAC.createMediaElementSource(au);cxAn=cxAC.createAnalyser();cxAn.fftSize=128;cxAn.smoothingTimeConstant=.7;s.connect(cxAn);cxAn.connect(cxAC.destination);cxData=new Uint8Array(cxAn.frequencyBinCount)}catch{cxAn=null}return cxAn}
-{let gl=0,gt=0,hue=0;const g=document.getElementById('cxmGlow');(function loop(ts){requestAnimationFrame(loop);if(ts-gt<50)return;gt=ts;if(!document.body.classList.contains('cx-music-open')||M.glow===false||!playing||cxShell.classList.contains('search-open')){if(g.style.opacity!=='0')g.style.opacity=0;return}let tgt;const t=L[cur];if(t&&t.type==='local'&&cxAnalyser()){if(cxAC.state==='suspended')cxAC.resume();cxAn.getByteFrequencyData(cxData);let s=0;for(let i=0;i<8;i++)s+=cxData[i];tgt=Math.min(1,s/8/255*1.4)}else{const x=ts/1000;tgt=.3+.32*Math.abs(Math.sin(x*3.9))*Math.abs(Math.sin(x*1.3+1))+.22*Math.abs(Math.sin(x*7.1))}gl+=(tgt-gl)*(tgt>gl?.6:.2);hue=(hue+1.5)%360;g.style.setProperty('--c','hsl('+(hue|0)+' 100% 58%)');g.style.opacity=(.2+gl*.8).toFixed(2)})(0)}
 
+
+/* ===== FX settings: zoom, edge blur, RGB glow ===== */
+const FXD={zoom:120,bb:12,bs:9,glow:true,pal:'rainbow',motion:'flow',color:'#7a5cff',speed:5,thick:3,amt:60};
+const FX=Object.assign({},FXD,ld('chronos-music-fx',{}));
+const PALS={rainbow:['#ff2d6f','#ffb020','#38ff8a','#22d9ff','#7a5cff'],sunset:['#ff5e62','#ff9966','#ffd166','#ff6b9d','#c04cfd'],ocean:['#00f5d4','#00bbf9','#4361ee','#7209b7','#00bbf9'],neon:['#ff00e5','#7a00ff','#00e5ff','#7a00ff','#ff00e5']};
+const fxG=document.getElementById('cxmGlow'),fxIn=document.getElementById('cxmGlowIn');
+function fxApply(){const r=document.documentElement.style;r.setProperty('--vz',FX.zoom/100);r.setProperty('--bb',FX.bb+'px');r.setProperty('--bs',FX.bs+'vmin');document.querySelector('.cxm-edgeblur')?.classList.toggle('off',!(FX.bb>0&&FX.bs>0));
+ const st=FX.pal==='solid'?[FX.color,FX.color,FX.color]:PALS[FX.pal]||PALS.rainbow,cyc=[...st,st[0]],full=cyc.concat(cyc.slice(1)).join(',');
+ fxG.style.setProperty('--gradh','linear-gradient(90deg,'+full+')');fxG.style.setProperty('--gradv','linear-gradient(180deg,'+full+')');
+ fxG.style.setProperty('--gs',FX.thick+'px');fxG.style.setProperty('--gop',FX.amt/100);fxG.style.setProperty('--spd',(22-FX.speed*2)+'s');fxG.style.setProperty('--bd',(14-FX.speed)+'s');
+ fxG.className='m-'+FX.motion;fxG.style.display=FX.glow?'':'none';fxIn.style.opacity='';
+ $m('#cxmGlowBtn')?.classList.toggle('active',!!FX.glow);sv('chronos-music-fx',FX)}
+const slider=(id,l,min,max,u)=>`<div class="fx-row"><label for="${id}">${l}</label><input type="range" id="${id}" min="${min}" max="${max}" step="1"><output id="${id}V"></output></div>`;
+const sel=(id,l,o)=>`<div class="fx-row two"><label for="${id}">${l}</label><select id="${id}">${o.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select></div>`;
+$m('#cxmSettingsModal .cxm-modal-head').insertAdjacentHTML('afterend',`<div class="fx-sec"><h4>Video framing</h4>${slider('fxZoom','Zoom %',100,180)}${slider('fxBB','Edge blur',0,30)}${slider('fxBS','Edge blur size',0,30)}<h4>RGB glow</h4><div class="fx-row two"><label for="fxGlow">Enabled</label><input type="checkbox" id="fxGlow" style="width:20px;height:20px;accent-color:#8ea2ff"></div>${sel('fxMotion','Effect',[['flow','Flow'],['breathe','Breathing'],['static','Static'],['pulse','Music pulse'],['beat','Beat flash']])}${sel('fxPal','Colours',[['rainbow','Rainbow'],['sunset','Sunset'],['ocean','Ocean'],['neon','Neon'],['solid','Solid colour']])}<div class="fx-row two"><label for="fxColor">Solid colour</label><input type="color" id="fxColor"></div>${slider('fxSpeed','Speed',1,10)}${slider('fxThick','Strip thickness',1,8)}${slider('fxAmt','Glow amount',0,100)}<div style="margin:12px 0"><button class="cxm-btn" id="fxReset">Reset framing &amp; glow</button></div></div>`);
+const fxMap={fxZoom:'zoom',fxBB:'bb',fxBS:'bs',fxSpeed:'speed',fxThick:'thick',fxAmt:'amt'};
+function fxSync(){for(const[id,k]of Object.entries(fxMap)){$m('#'+id).value=FX[k];$m('#'+id+'V').textContent=FX[k]}$m('#fxGlow').checked=!!FX.glow;$m('#fxMotion').value=FX.motion;$m('#fxPal').value=FX.pal;$m('#fxColor').value=FX.color}
+$m('#cxmSettingsModal').addEventListener('input',e=>{const t=e.target,id=t.id;if(fxMap[id]){FX[fxMap[id]]=+t.value;$m('#'+id+'V').textContent=t.value}else if(id==='fxGlow')FX.glow=t.checked;else if(id==='fxMotion')FX.motion=t.value;else if(id==='fxPal')FX.pal=t.value;else if(id==='fxColor'){FX.color=t.value;FX.pal='solid';$m('#fxPal').value='solid'}else return;fxApply()});
+$m('#fxReset').addEventListener('click',()=>{Object.assign(FX,FXD);fxSync();fxApply()});
+$m('#cxmSettings').addEventListener('click',fxSync);
+$m('.cxm-stage-side-controls').insertAdjacentHTML('beforeend',`<button id="cxmGearSide" title="Settings">${svg('settings',16)}</button>`);
+$m('#cxmGearSide').addEventListener('click',()=>$m('#cxmSettings').click());
+$m('#cxmGlowBtn').addEventListener('click',()=>{FX.glow=!FX.glow;fxApply()});
+fxSync();fxApply();
+let cxAC,cxAn,cxData;function cxAnalyser(){if(cxAn)return cxAn;try{cxAC=new(window.AudioContext||window.webkitAudioContext)();const s=cxAC.createMediaElementSource(au);cxAn=cxAC.createAnalyser();cxAn.fftSize=128;cxAn.smoothingTimeConstant=.7;s.connect(cxAn);cxAn.connect(cxAC.destination);cxData=new Uint8Array(cxAn.frequencyBinCount)}catch{cxAn=null}return cxAn}
+{let gl=0,gt=0,avg=0;(function loop(ts){requestAnimationFrame(loop);if(ts-gt<33)return;gt=ts;if(!FX.glow||(FX.motion!=='pulse'&&FX.motion!=='beat')||!playing||!document.body.classList.contains('cx-music-open')||document.body.classList.contains('cf-open'))return;let tgt;const t=L[cur];if(t&&t.type==='local'&&cxAnalyser()){if(cxAC.state==='suspended')cxAC.resume();cxAn.getByteFrequencyData(cxData);let s=0;for(let i=0;i<8;i++)s+=cxData[i];tgt=Math.min(1,s/8/255*1.4)}else{const x=ts/1000;tgt=.3+.32*Math.abs(Math.sin(x*3.9))*Math.abs(Math.sin(x*1.3+1))+.22*Math.abs(Math.sin(x*7.1))}
+ if(FX.motion==='beat'){avg+=(tgt-avg)*.05;gl=tgt>avg*1.15+.04?1:gl*.84;fxIn.style.opacity=(.1+gl*.9).toFixed(2)}else{gl+=(tgt-gl)*(tgt>gl?.6:.2);fxIn.style.opacity=(.2+gl*.8).toFixed(2)}})(0)}
 
 document.querySelector('.tab-btn[data-tab="music"]').click();
 </script>
 <script type="module" id="cx-liquid-js">
 /* Move music backdrop (video / cover art) out of the stage so it fills the whole music app */
 const bgBox=document.createElement('div');bgBox.id='cxmBg';
-['#cxmArtBg','#cxmVideoLayer','.cxm-stage-shade'].forEach(s=>{const e=document.querySelector(s);if(e)bgBox.appendChild(e)});bgBox.insertAdjacentHTML('beforeend','<div class="cxm-edgeblur"><i></i><i></i></div>');
+['#cxmArtBg','#cxmVideoLayer','.cxm-stage-shade'].forEach(s=>{const e=document.querySelector(s);if(e)bgBox.appendChild(e)});bgBox.insertAdjacentHTML('beforeend','<div class="cxm-edgeblur"><i></i><i></i><i></i><i></i></div>');
 document.body.insertBefore(bgBox,document.getElementById('app'));
 /* Liquid glass: per-size SVG displacement map used as backdrop-filter */
 (()=>{
